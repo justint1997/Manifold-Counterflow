@@ -1,0 +1,268 @@
+#----------------------DOMAIN DEFINITION------------------------
+geometry.is_periodic = 0 0               # For each dir, 0: non-perio, 1: periodic
+geometry.coord_sys   = 0                  # 0 => cart, 1 => RZ
+#geometry.prob_lo     =  -0.015 -0.015 0.0        # x_lo y_lo (z_lo)
+#geometry.prob_hi     =   0.015  0.015 0.0        # x_hi y_hi (z_hi)
+#geometry.prob_lo     =  -0.030 -0.015 0.0		#Lx = 6.0 cm
+#geometry.prob_hi     =   0.030  0.015 0.0		#Lx = 6.0 cm
+#geometry.prob_lo     =  -0.0225 -0.015 0.0		#Lx = 4.5 cm
+#geometry.prob_hi     =   0.0225  0.015 0.0		#Lx = 4.5 cm
+#geometry.prob_lo     =  -0.0075 -0.015 0.0		#Lx = 1.5 cm
+#geometry.prob_hi     =   0.0075  0.015 0.0		#Lx = 1.5 cm
+
+geometry.prob_lo     =  -0.0075 -0.0075 0.0		#Lx = 1.5 cm
+geometry.prob_hi     =   0.0075  0.0075 0.0		#Lx = 1.5 cm
+#geometry.prob_lo     =  -0.0050 -0.0050 0.0		#Lx = 1.0 cm
+#geometry.prob_hi     =   0.0050  0.0050 0.0		#Lx = 1.0 cm
+#geometry.prob_lo     =  -0.0025 -0.0025 0.0		#Lx = 0.5 cm
+#geometry.prob_hi     =   0.0025  0.0025 0.0		#Lx = 0.5 cm
+
+# >>>>>>>>>>>>>  BC FLAGS <<<<<<<<<<<<<<<<
+# Interior, Inflow, Outflow, Symmetry,
+# SlipWallAdiab, NoSlipWallAdiab, SlipWallIsotherm, NoSlipWallIsotherm
+peleLM.lo_bc = Inflow Outflow
+peleLM.hi_bc = Inflow Outflow
+
+#-------------------------AMR CONTROL----------------------------
+#amr.n_cell          = 128 128 32      # Level 0 number of cells in each direction   
+#amr.n_cell          = 256 128 48	  # Lx=6.0 cm
+#amr.n_cell          = 192 128 48	  	  # Lx=4.5 cm
+#amr.n_cell          = 64 128 48	  	  # Lx=1.5 cm
+
+#amr.n_cell          = 64 64 32	  	  # Lx=1.5 cm
+amr.n_cell          = 128 128 64	  # Lx=1.5 cm - 2x - MaxLevel = 2
+#amr.n_cell          = 256 256 128	  # Lx=1.5 cm - 4x - MaxLevel = 1
+#amr.n_cell          = 512 512 256	  # Lx=1.5 cm - 8x - MaxLevel = 0
+
+amr.v               = 1                # AMR verbose
+amr.max_level       = 3
+#amr.max_level       = 2                # maximum level number allowed
+#amr.max_level       = 1
+#amr.max_level       = 0
+amr.ref_ratio       = 2 2 2 2          # refinement ratio
+
+#amr.regrid_int      = 5                # how often to regrid
+amr.regrid_int      = 1E200
+
+amr.n_error_buf     = 2 2 2 2          # number of buffer cells in error est
+amr.grid_eff        = 0.7              # what constitutes an efficient grid
+#amr.blocking_factor = 16               # block factor in grid generation (min box size)
+amr.blocking_factor = 4
+amr.max_grid_size   = 64               # max box size (64 default for case)
+#amr.max_grid_size   = 128
+#--------------------------- Problem -------------------------------
+#prob.P_mean = 101325.0
+prob.P_mean = 792897.5 #7.82529*one_atm 
+#prob.T_ox   = 298.0
+#prob.T_fuel = 298.0
+prob.T_ox   = 450.0
+prob.T_fuel = 450.0
+prob.T_inert = 450.0 #Added 10/1/2024
+prob.Y_O2_ox = 0.233 #Added 10/1/2024
+prob.Y_N2_ox = 0.767 #Added 10/1/2024
+#prob.Y_O2_ox = 0.210 #Air - mole basis
+#prob.Y_N2_ox = 0.790 #Air - mole basis
+prob.Y_N2_fuel = 0.0 #Added 10/1/2024
+prob.Y_fuel = 1.0 #Added 10/1/2024 - 1.0 for gas fuel, 0.0 for spray fuel
+prob.Y_H2O_ign = 0.083751 #Added 10/1/2024 - Dodecane:0.083751, HEFA:0.084426, POSF10325:0.079414 
+prob.Y_CO2_ign = 0.17644 #Added 10/1/2024 - Dodecane:0.17644, HEFA:0.17585, POSF10325:0.18169
+#prob.massflow = 2.0
+
+#prob.massflow_ox = 0.4586 #Added 10/8/2024
+#prob.massflow_fuel = 1.114 #Added 10/8/2024
+
+prob.massflow_ox = 0.9171 #Extinction0003 - Lx=1.5cm
+prob.massflow_fuel = 2.228 #Extinction0003 - Lx=1.5cm
+#prob.massflow_ox = 11.4638 #Extinction0003 - Lx=1.5cm - a=500s-1
+#prob.massflow_fuel = 27.85545097 #Extinction0003 - Lx=1.5cm - a=500s-1
+#prob.massflow_ox = 22.9277 #Extinction0003 - Lx=1.5cm - a=1000s-1
+#prob.massflow_fuel = 55.7109 #Extinction0003 - Lx=1.5cm - a=1000s-1
+#prob.massflow_ox = 1.3757 #Extinction0008 - Lx=1.0cm
+#prob.massflow_fuel = 3.3427 #Extinction0008 - Lx=1.0cm
+#prob.massflow_ox = 2.7513 #Extinction0035 - Lx=0.5cm
+#prob.massflow_fuel = 6.68532 #Extinction0035 - Lx=0.5cm
+#prob.massflow_ox = 0.9171 #Extinction0003 - Lx=1.5cm - CH4
+#prob.massflow_fuel = 0.6839 #Extinction0003 - Lx=1.5cm - CH4
+
+#prob.jet_radius = 0.005 # Original (#Make 1/6 Ly by default) - Should be consistent with spray.jet1.jet_dia
+#prob.inert_radius = 0.0075 #Original - not sure if this is used
+#prob.jet_radius = 0.0075
+#prob.pertmag = 0.000
+
+prob.jet_radius = 0.0025 #Extinction0003 - Lx=1.5cm
+#prob.jet_radius = 0.001667 #Extinction0008 - Lx=1.0cm
+#prob.jet_radius = 0.0008333 #Extinction0035 - Lx=0.5cm
+
+prob.inert_velocity_ox = 0.1500 #Extinction0003 - Lx=1.5cm
+prob.inert_velocity_fuel = 0.0617 #Extinction0003 - Lx=1.5cm
+#prob.inert_velocity_ox = 1.875 #Extinction0003 - Lx=1.5cm - a=500s-1
+#prob.inert_velocity_fuel = 0.7716 #Extinction0003 - Lx=1.5cm - a=500s-1
+#prob.inert_velocity_ox = 3.7500 #Extinction0003 - Lx=1.5cm - a=1000s-1
+#prob.inert_velocity_fuel = 1.5433 #Extinction0003 - Lx=1.5cm - a=1000s-1
+#prob.inert_velocity_ox = 0.2250 #Extinction0008 - Lx=1.0cm
+#prob.inert_velocity_fuel = 0.0926 #Extinction0008 - Lx=1.0cm
+#prob.inert_velocity_ox = 0.4500 #Extinction0035 - Lx=0.5cm
+#prob.inert_velocity_fuel = 0.1852 #Extinction0035 - Lx=0.5cm
+#prob.inert_velocity_ox = 0.1500 #Extinction0003 - Lx=1.5cm - CH4
+#prob.inert_velocity_fuel = 0.2012 #Extinction0003 - Lx=1.5cm - CH4
+
+prob.do_ignition = 0
+#prob.do_ignition = 1
+#prob.ignition_SphT = 2413.5 #Tad - Dodecane:2413.5, HEFA:2411.5, POSF10325:2407.5
+#prob.ignition_SphT = 1400.0
+prob.ignition_SphT = 1000.0
+prob.ignition_SphRad = 0.003 #Case 19
+#prob.ignition_SphRad = 0.006 #Default
+#prob.ignition_SphRad = 0.009 #Case 9
+#prob.ignition_SphRad = 0.012 #Case 10
+
+spray.jet1.jet_cent = 0.015 0. 0.
+spray.jet1.jet_norm = -1. 0. 0.
+spray.jet1.mass_flow_rate = 9.8E-4
+#spray.jet1.T = 300.
+spray.jet1.T = 450.0
+spray.jet1.jet_vel = 2.
+spray.jet1.jet_dia = 0.01
+spray.jet1.dist_type = Uniform
+spray.jet1.diameter = 5.E-5
+spray.jet1.spread_angle = 0. # Unused
+
+#-------------------------PeleLM CONTROL----------------------------
+peleLM.v = 3
+peleLM.incompressible = 0
+peleLM.rho = 1.17
+peleLM.mu = 0.0
+#peleLM.sdc_iterMax = 1
+peleLM.sdc_iterMax = 2
+peleLM.floor_species = 0
+
+peleLM.do_temporals = 1
+peleLM.temporal_int = 2
+peleLM.mass_balance = 1
+#peleLM.do_init_proj = 0 #Turn off initial projections
+#peleLM.num_init_iter = 0               # [OPT, DEF=3] Number of iterations to get initial pressure
+#peleLM.num_divu_iter = 0
+
+#Testing Parameters
+#amr.plot_int = 1
+#amr.max_step = 10
+#amr.dt_shrink = 0.01
+#amr.stop_time = 0.01
+
+#amr.restart = chk01067
+#amr.regrid_on_restart = 1
+
+#amr.check_int = 50
+#amr.check_int = 200
+#amr.check_int = 2000 #Used for coolflow
+#amr.plot_int = 200
+
+#amr.plot_per = 0.050				#Plot every t=50ms - #Used for coolflow
+amr.plot_per = 0.005  				#Plot every t=5ms
+#amr.plot_per = 0.001  				#Plot every t=1ms
+amr.plot_per_exact = 1            	# [OPT, DEF=0] Flag to enforce exactly plt_per by shortening dt - #Used for coolflow
+
+#amr.max_step = 200
+#amr.max_step = 1000
+
+#amr.dt_shrink = 0.0001 #Worked!
+#amr.dt_shrink = 0.001 #divU dt error
+amr.dt_shrink = 0.01 #Default - #Used for coolflow
+#amr.dt_shrink = 0.0 #Used with regridding on restart
+#amr.fixed_dt = 1.0e-6
+#amr.min_dt = 1.0e-14
+
+amr.init_dt = 1.0e-6 #Used for coolflow
+#amr.stop_time = 0.050
+#amr.stop_time = 0.055
+amr.stop_time = 0.100
+#amr.stop_time = 0.150
+#amr.stop_time = 0.300
+#amr.stop_time = 0.500 #Used for coolflow
+#amr.cfl = 0.5
+amr.cfl = 0.2
+#amr.cfl = 0.1 #Used for coolflow
+#amr.derive_plot_vars = avg_pressure mag_vort mass_fractions mixture_fraction
+amr.derive_plot_vars = avg_pressure mag_vort mass_fractions maniout
+
+# ------------------- INPUTS DERIVED DIAGS ------------------
+peleLM.fuel_name = NC12H26
+peleLM.mixtureFraction.format = Cantera
+peleLM.mixtureFraction.type   = mass
+peleLM.mixtureFraction.oxidTank = O2:0.233 N2:0.767 #Air - mass basis
+#peleLM.mixtureFraction.oxidTank = O2:0.210 N2:0.790 #Air - mole basis
+peleLM.mixtureFraction.fuelTank = NC12H26:1.0
+
+# --------------- INPUTS TO CHEMISTRY REACTOR ---------------
+peleLM.chem_integrator = "ReactorRK64"
+
+mac_proj.verbose = 2 #Verbose of the MAC projector
+nodal_proj.verbose = 2 #Verbose of the nodal projector
+diffusion.verbose = 2 #Verbose of the scalar diffusion solve
+tensor_diffusion.verbose = 2 #Verbose of the velocity tensor diffusion solve
+
+nodal_proj.rtol = 5e-10
+mac_proj.rtol   = 5e-10
+#diffusion.rtol  = 5e-10
+#--------------------REFINEMENT CONTROL------------------------
+#amr.refinement_indicators = temperature
+#amr.refinement_indicators = gradT
+amr.refinement_indicators = gradZ
+
+amr.temperature.max_level     = 2
+amr.temperature.value_greater = 1500
+amr.temperature.field_name    = temp
+
+#amr.gradT.max_level = 0
+#amr.gradT.max_level = 1
+amr.gradT.max_level = 2
+#amr.gradT.adjacent_difference_greater = 300
+#amr.gradT.adjacent_difference_greater = 200
+#amr.gradT.adjacent_difference_greater = 150
+amr.gradT.adjacent_difference_greater = 100
+#amr.gradT.adjacent_difference_greater = 75
+#amr.gradT.adjacent_difference_greater = 50
+#amr.gradT.adjacent_difference_greater = 25
+#amr.gradT.field_name = temp
+amr.gradT.field_name = MANI_T
+#amr.gradT.start_time    = 1.0e-11
+#amr.gradT.start_time    = 10.0e-3
+#amr.gradT.end_time      = 1.0e-10
+
+amr.gradZ.max_level = 2
+#amr.gradZ.max_level = 3
+#amr.gradZ.adjacent_difference_greater = 0.1 #Nx=64 MaxLevel=1 (doesn't reach 2) - MLMG error at t=4ms - Nodal Projection
+#amr.gradZ.adjacent_difference_greater = 0.05 #Nx=64 MaxLevel=2 (doesn't reach 3) - MLMG error at t=3ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.05 #Nx=128 MaxLevel=1 (doesn't reach 2) - MLMG error at t=3ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.01 #Nx=64 MaxLevel=2 - MLMG error at t=0.12ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.01 #Nx=64 MaxLevel=3 - MLMG error at t=0.12ms - Scalar Diffusion
+amr.gradZ.adjacent_difference_greater = 0.01 #Nx=128 MaxLevel=2 (doesn't reach 3) - MLMG error at t=0.12ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.01 #Nx=256 MaxLevel=2 (doesn't reach 3) - MLMG error at t=0.12ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.01 #Nx=512 MaxLevel=1 (doesn't reach 2) - MLMG error at t=0.12ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.005 #Nx=64 MaxLevel=3 - MLMG error at t=0.6ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.005 #Nx=64 MaxLevel=3 - MLMG error at t=0.1ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.005 #Nx=128 MaxLevel=3 - MLMG error at t=0.087ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.005 #Nx=256 MaxLevel=3 - MLMG error at t=0.093ms - Scalar Diffusion
+#amr.gradZ.adjacent_difference_greater = 0.005 #Nx=512 MaxLevel=2 - MLMG error at t=...ms - Scalar Diffusion
+amr.gradZ.field_name = Y(Zmix)
+
+#amrex.fpe_trap_invalid = 1
+#amrex.fpe_trap_zero = 1
+#amrex.fpe_trap_overflow = 1
+
+#----------------------- Manifold Stuff ----------------------------
+manifold.model = Table
+manifold.table.v = 1
+
+#manifold.table.filename = nonpremixed_Dodecane.ctb
+#manifold.table.filename = nonpremixed_Dodecane_100.ctb
+manifold.table.filename = nonpremixed_Dodecane_600.ctb
+
+#manifold.nominal_pressure_cgs = 1013250.0
+manifold.nominal_pressure_cgs = 7928970.5
+manifold.compute_temperature = 1
+manifold.density_lookup_type = log
+peleLM.use_wbar = 0
+peleLM.chi_correction_type = DivuFirstIter
+#peleLM.chi_correction_type = NoDivu
+peleLM.print_chi_convergence = 1
